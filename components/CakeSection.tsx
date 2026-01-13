@@ -30,15 +30,15 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] w-full text-center space-y-12">
-      <motion.h2 
+      <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold text-pink-600"
+        className="text-3xl font-bold text-pink-600 pb-20"
       >
         Make a Wish! 🎂
       </motion.h2>
 
-      <div className="relative mt-24 scale-150 sm:scale-125">
+      <div className="relative mt-32 scale-110 sm:scale-125 flex flex-col items-center">
         {/* Cake Base */}
         <div className="w-40 h-24 bg-[#ffccdc] rounded-t-3xl border-b-8 border-pink-300 relative shadow-inner">
           {/* Frosting Drips */}
@@ -47,11 +47,11 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
               <div key={i} className="w-6 h-8 bg-white/60 backdrop-blur-sm rounded-b-full shadow-sm" />
             ))}
           </div>
-          
+
           <div className="absolute top-1/2 left-0 right-0 flex justify-center gap-4">
-             <span className="text-xs drop-shadow-md">🍓</span>
-             <span className="text-xs drop-shadow-md">🍓</span>
-             <span className="text-xs drop-shadow-md">🍓</span>
+            <span className="text-xs drop-shadow-md">🍓</span>
+            <span className="text-xs drop-shadow-md">🍓</span>
+            <span className="text-xs drop-shadow-md">🍓</span>
           </div>
 
           {/* Candle */}
@@ -59,7 +59,10 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
             <div className="absolute top-2 w-full h-1.5 bg-pink-400/20" />
             <div className="absolute top-6 w-full h-1.5 bg-pink-400/20" />
             <div className="absolute top-10 w-full h-1.5 bg-pink-400/20" />
-            
+
+            {/* Wick */}
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0.5 h-2 bg-slate-700" />
+
             {/* Flame Area */}
             <AnimatePresence>
               {candleLit && (
@@ -68,32 +71,32 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
                   animate={{ scale: 1, y: 0 }}
                   exit={{ scale: 0, opacity: 0, y: -10 }}
                   onClick={handleBlow}
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 cursor-pointer z-20 group"
+                  className="absolute -top-12 -left-1.5 -translate-x-1/2 cursor-pointer z-20 group"
                 >
-                  <motion.div 
-                    animate={{ 
+                  <motion.div
+                    animate={{
                       scale: [1, 1.2, 1.1, 1.3, 1],
                       opacity: [0.8, 1, 0.9, 1, 0.8],
-                      y: [0, -4, -2, -5, 0]
+                      y: [0, -2, -1, -3, 0]
                     }}
                     transition={{ repeat: Infinity, duration: 0.8 }}
                     className="w-6 h-9 bg-gradient-to-t from-orange-600 via-orange-400 to-yellow-200 rounded-full shadow-[0_0_20px_rgba(255,165,0,0.8)]"
                   />
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-orange-500 uppercase tracking-widest animate-bounce group-hover:scale-110 transition-transform">
+                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-orange-500 uppercase tracking-widest animate-bounce cursor-pointer">
                     Tap to Blow 💨
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-            
+
             {/* Smoke after blowing */}
             {!candleLit && (
-               <motion.div 
-                 initial={{ opacity: 0, y: 0 }}
-                 animate={{ opacity: [0, 0.5, 0], y: -40, x: [0, 10, -10, 5] }}
-                 transition={{ duration: 2 }}
-                 className="absolute -top-8 left-1/2 -translate-x-1/2 w-4 h-8 bg-slate-300/30 rounded-full blur-md"
-               />
+              <motion.div
+                initial={{ opacity: 0, y: 0 }}
+                animate={{ opacity: [0, 0.5, 0], y: -40, x: [0, 10, -10, 5] }}
+                transition={{ duration: 2 }}
+                className="absolute -top-8 left-1/2 -translate-x-1/2 w-4 h-8 bg-slate-300/30 rounded-full blur-md"
+              />
             )}
           </div>
         </div>
@@ -113,13 +116,13 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
               <p className="text-slate-600 font-medium">May all your dreams come true, Didu!</p>
             </motion.div>
           ) : (
-            <motion.p 
+            <motion.p
               key="instruction"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-slate-400 italic font-medium"
             >
-              "Close your eyes, make a wish, <br/> and tap the magical flame!"
+              "Close your eyes, make a wish, <br /> and tap the magical flame!"
             </motion.p>
           )}
         </AnimatePresence>

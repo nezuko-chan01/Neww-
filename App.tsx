@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { 
-  Heart, 
-  ChevronRight, 
-  ChevronLeft, 
-  Volume2, 
+import {
+  Heart,
+  ChevronRight,
+  ChevronLeft,
+  Volume2,
   VolumeX
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -27,23 +27,23 @@ enum Section {
 }
 
 const pageVariants = {
-  initial: { 
-    opacity: 0, 
-    scale: 0.92, 
+  initial: {
+    opacity: 0,
+    scale: 0.92,
     y: 30,
     rotateY: 10,
     filter: 'blur(8px)'
   },
-  animate: { 
-    opacity: 1, 
-    scale: 1, 
+  animate: {
+    opacity: 1,
+    scale: 1,
     y: 0,
     rotateY: 0,
     filter: 'blur(0px)'
   },
-  exit: { 
-    opacity: 0, 
-    scale: 1.05, 
+  exit: {
+    opacity: 0,
+    scale: 1.05,
     y: -30,
     rotateY: -10,
     filter: 'blur(8px)'
@@ -116,13 +116,13 @@ const App: React.FC = () => {
   const playDolphinSound = useCallback(() => {
     const sound = new Audio('https://www.myinstants.com/media/sounds/dolphin.mp3');
     sound.volume = 0.4;
-    sound.play().catch(() => {});
+    sound.play().catch(() => { });
   }, []);
 
   const playClickSound = useCallback(() => {
     const sound = new Audio('https://www.myinstants.com/media/sounds/pop-sound-effect.mp3');
     sound.volume = 0.15;
-    sound.play().catch(() => {});
+    sound.play().catch(() => { });
   }, []);
 
   const totalSectionsCount = 6;
@@ -131,10 +131,10 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden text-slate-800 selection:bg-pink-200 perspective-1000">
       <BackgroundEffects />
-      
+
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1.5 bg-pink-100/30 z-50">
-        <motion.div 
+        <motion.div
           className="h-full bg-gradient-to-r from-pink-400 to-pink-600 shadow-[0_0_12px_rgba(236,72,153,0.5)]"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
@@ -144,7 +144,7 @@ const App: React.FC = () => {
 
       {/* Global Music Control */}
       <div className="fixed top-6 right-6 z-50">
-        <motion.button 
+        <motion.button
           whileHover={{ scale: 1.12, rotate: 5 }}
           whileTap={{ scale: 0.85 }}
           onClick={toggleMusic}
@@ -191,13 +191,13 @@ const App: React.FC = () => {
         {/* Navigation Controls */}
         <AnimatePresence>
           {currentSection !== Section.WELCOME && (
-            <motion.div 
-              initial={{ y: 80, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 80, opacity: 0 }}
+            <motion.div
+              initial={{ y: 80, opacity: 0, x: "-50%" }}
+              animate={{ y: 0, opacity: 1, x: "-50%" }}
+              exit={{ y: 80, opacity: 0, x: "-50%" }}
               className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-5 z-50 bg-white/80 backdrop-blur-3xl p-2.5 rounded-full border border-white/60 shadow-[0_20px_50px_rgba(236,72,153,0.15)] ring-1 ring-pink-500/5"
             >
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.15, x: -3 }}
                 whileTap={{ scale: 0.8 }}
                 onClick={() => { playClickSound(); prevSection(); }}
@@ -206,24 +206,24 @@ const App: React.FC = () => {
               >
                 <ChevronLeft size={26} />
               </motion.button>
-              
+
               <div className="flex gap-2.5 px-1">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <motion.div 
-                    key={i} 
-                    animate={{ 
+                  <motion.div
+                    key={i}
+                    animate={{
                       scale: i === currentSection ? [1, 1.3, 1] : 1,
                       backgroundColor: i === currentSection ? '#ec4899' : '#fbcfe8',
                       boxShadow: i === currentSection ? '0 0 12px rgba(236,72,153,0.5)' : 'none'
                     }}
                     transition={i === currentSection ? { repeat: Infinity, duration: 2.5 } : {}}
-                    className={`h-2.5 rounded-full w-2.5 transition-all duration-500`} 
+                    className={`h-2.5 rounded-full w-2.5 transition-all duration-500`}
                   />
                 ))}
               </div>
 
               {currentSection !== Section.ENDING ? (
-                <motion.button 
+                <motion.button
                   whileHover={{ scale: 1.15, x: 3 }}
                   whileTap={{ scale: 0.8 }}
                   animate={{ scale: [1, 1.05, 1] }}
