@@ -13,6 +13,7 @@ import Welcome from './components/Welcome';
 import GiftBox from './components/GiftBox';
 import CakeSection from './components/CakeSection';
 import DolphinSurprise from './components/DolphinSurprise';
+import DolphinReveal from './components/DolphinReveal';
 import Letter from './components/Letter';
 import Ending from './components/Ending';
 import BackgroundEffects from './components/BackgroundEffects';
@@ -22,6 +23,7 @@ enum Section {
   GIFT,
   CAKE,
   DOLPHIN,
+  DOLPHIN_REVEAL,
   LETTER,
   ENDING
 }
@@ -39,7 +41,13 @@ const pageVariants = {
     scale: 1,
     y: 0,
     rotateY: 0,
-    filter: 'blur(0px)'
+    filter: 'none',
+    transition: {
+      duration: 0.5,
+    },
+    transitionEnd: {
+      transform: "none"
+    }
   },
   exit: {
     opacity: 0,
@@ -125,11 +133,11 @@ const App: React.FC = () => {
     sound.play().catch(() => { });
   }, []);
 
-  const totalSectionsCount = 6;
+  const totalSectionsCount = 7;
   const progress = (currentSection / (totalSectionsCount - 1)) * 100;
 
   return (
-    <div className="min-h-screen relative overflow-hidden text-slate-800 selection:bg-pink-200 perspective-1000">
+    <div className="min-h-screen relative text-slate-800 selection:bg-pink-200">
       <BackgroundEffects />
 
       {/* Progress Bar */}
@@ -155,7 +163,7 @@ const App: React.FC = () => {
       </div>
 
       <main className="relative z-10 max-w-lg mx-auto min-h-screen flex flex-col items-center px-6 pt-16 pb-36">
-        <div className="w-full flex-1 flex flex-col items-center justify-center">
+        <div className={`w-full flex-1 flex flex-col items-center ${currentSection === Section.DOLPHIN_REVEAL ? 'justify-start' : 'justify-center'}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSection}
@@ -177,6 +185,9 @@ const App: React.FC = () => {
               )}
               {currentSection === Section.DOLPHIN && (
                 <DolphinSurprise onComplete={nextSection} onInteraction={playDolphinSound} />
+              )}
+              {currentSection === Section.DOLPHIN_REVEAL && (
+                <DolphinReveal onComplete={nextSection} />
               )}
               {currentSection === Section.LETTER && (
                 <Letter onComplete={nextSection} />
@@ -208,7 +219,7 @@ const App: React.FC = () => {
               </motion.button>
 
               <div className="flex gap-2.5 px-1">
-                {[1, 2, 3, 4, 5].map((i) => (
+                {[1, 2, 3, 4, 5, 6].map((i) => (
                   <motion.div
                     key={i}
                     animate={{
