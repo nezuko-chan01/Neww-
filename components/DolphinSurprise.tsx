@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Heart, Camera } from 'lucide-react';
+// @ts-ignore
+import dolGif from '../assets/dol.gif';
 
 interface DolphinSurpriseProps {
   onComplete: () => void;
@@ -12,7 +14,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
   const [isFlipped, setIsFlipped] = useState(false);
 
   // 🐬 Cheerful Magical Dolphin GIF
-  const dolphinGifUrl = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnR5eTh6N3Q0bmx6bmx6bmx6bmx6bmx6bmx6bmx6bmx6bmx6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/12p7L6S5K7lqVq/giphy.gif"; 
+  const dolphinGifUrl = dolGif;
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -20,7 +22,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 1.1 }}
@@ -38,7 +40,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
         <p className="text-slate-500 font-medium italic">"Wait for the splash of joy..."</p>
       </div>
 
-      <div 
+      <div
         className="relative w-80 h-[28rem] perspective-2000 cursor-pointer group"
         onClick={handleFlip}
       >
@@ -49,13 +51,13 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
           style={{ transformStyle: 'preserve-3d' }}
         >
           {/* Front Side: The Dolphin Invitation */}
-          <div 
+          <div
             className="absolute inset-0 w-full h-full bg-white rounded-2xl shadow-2xl border-[12px] border-blue-50 flex flex-col items-center justify-center p-10 backface-hidden"
             style={{ backfaceVisibility: 'hidden' }}
           >
             <div className="relative mb-8">
-              <motion.div 
-                animate={{ 
+              <motion.div
+                animate={{
                   y: [0, -15, 0],
                   rotate: [0, 10, -10, 0]
                 }}
@@ -72,7 +74,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
                 <Sparkles className="text-yellow-400" size={48} />
               </motion.div>
             </div>
-            
+
             <div className="space-y-4">
               <p className="text-blue-500 font-pacifico text-3xl">Flip Me, Didu!</p>
               <div className="h-1 w-20 bg-blue-100 mx-auto rounded-full" />
@@ -83,20 +85,20 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
           </div>
 
           {/* Back Side: The Magical Polaroid with GIF */}
-          <div 
+          <div
             className="absolute inset-0 w-full h-full bg-[#fdfdfd] rounded-sm shadow-[0_25px_60px_rgba(0,0,0,0.2)] border-2 border-slate-100 flex flex-col p-5 backface-hidden"
             style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
           >
             <div className="flex-1 bg-white shadow-inner flex flex-col relative overflow-hidden group/img">
               <div className="flex-1 overflow-hidden relative bg-blue-50">
-                <img 
-                  src={dolphinGifUrl} 
+                <img
+                  src={dolphinGifUrl}
                   alt="Cheerful Dolphin"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-blue-400/10 pointer-events-none" />
-                
-                <motion.div 
+
+                <motion.div
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 2 }}
                   className="absolute bottom-4 right-4 text-white drop-shadow-md z-10"
@@ -104,7 +106,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
                   <Heart size={28} fill="#f472b6" className="text-pink-400" />
                 </motion.div>
               </div>
-              
+
               <div className="h-24 flex flex-col items-center justify-center bg-white px-2">
                 <p className="font-handwritten text-3xl text-blue-600 -rotate-1">
                   Splash of Love! 🌊
@@ -119,7 +121,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-10 bg-pink-300/30 backdrop-blur-md rotate-1 border-x border-white/40 shadow-sm z-20" />
           </div>
         </motion.div>
-        
+
         {/* Glow Effects */}
         <div className="absolute -inset-10 bg-gradient-to-tr from-blue-400/20 via-pink-400/10 to-blue-400/20 blur-3xl -z-10 rounded-full group-hover:scale-110 transition-transform duration-1000" />
       </div>
@@ -139,7 +141,7 @@ const DolphinSurprise: React.FC<DolphinSurpriseProps> = ({ onComplete, onInterac
               }}
               className="px-12 py-4 bg-blue-500 text-white rounded-full font-bold shadow-2xl transition-all flex items-center gap-3 group"
             >
-              <span className="text-xl">Read Your Letter</span>
+              <span className="text-xl">Reveal the Surprise</span>
               <Heart size={20} className="fill-white group-hover:animate-ping" />
             </motion.button>
           )}
