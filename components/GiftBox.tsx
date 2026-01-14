@@ -34,11 +34,14 @@ const GiftBox: React.FC<GiftBoxProps> = ({ onComplete, onSound }) => {
       if (nextCount === 5) {
         setSecretRevealed(true);
       }
+      if (nextCount >= 6) {
+        onComplete();
+      }
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -100 }}
@@ -48,10 +51,11 @@ const GiftBox: React.FC<GiftBoxProps> = ({ onComplete, onSound }) => {
 
       <div className="relative perspective-1000">
         <motion.div
-          animate={isOpen ? { scale: 0.8, y: 50 } : { y: [0, -10, 0] }}
-          transition={isOpen ? { duration: 0.5 } : { repeat: Infinity, duration: 2 }}
-          onClick={handleOpen}
+          animate={isOpen ? { scale: [1, 0.95, 1], y: 50 } : { y: [0, -10, 0] }}
+          transition={isOpen ? { duration: 0.1 } : { repeat: Infinity, duration: 2 }}
+          onClick={isOpen ? handleTap : handleOpen}
           className="cursor-pointer"
+          whileTap={{ scale: 0.9 }}
         >
           {/* Box Bottom */}
           <div className="w-48 h-48 bg-pink-400 rounded-lg shadow-2xl relative">
@@ -63,11 +67,11 @@ const GiftBox: React.FC<GiftBoxProps> = ({ onComplete, onSound }) => {
           <AnimatePresence>
             {!isOpen && (
               <motion.div
-                exit={{ 
-                  y: -200, 
-                  rotate: 45, 
+                exit={{
+                  y: -200,
+                  rotate: 45,
                   opacity: 0,
-                  transition: { duration: 0.8, ease: "easeOut" } 
+                  transition: { duration: 0.8, ease: "easeOut" }
                 }}
                 className="absolute -top-4 -left-2 w-52 h-12 bg-pink-300 rounded-md shadow-lg z-20 border-b-2 border-pink-400"
               >
@@ -102,15 +106,13 @@ const GiftBox: React.FC<GiftBoxProps> = ({ onComplete, onSound }) => {
         {isOpen ? (
           <div className="space-y-4">
             <p className="text-slate-500 font-medium">
-              You found a friendly dolphin! 🐬 <br/>
-              <span className="text-sm opacity-60">Tap the box 5 times for a secret... ({tapCount}/5)</span>
+              You found a friendly dolphin! 🐬 <br />
+              <span className="text-sm opacity-60">
+                {tapCount < 5
+                  ? `Tap the box ${5 - tapCount} more times for a secret...`
+                  : `Tap ${6 - tapCount} more times to continue journey...`}
+              </span>
             </p>
-            <button 
-              onClick={handleTap}
-              className="px-6 py-2 bg-pink-100 text-pink-600 rounded-full font-bold active:scale-90 transition-transform"
-            >
-              Tap Box!
-            </button>
           </div>
         ) : (
           <p className="text-slate-400 animate-pulse italic">Tap the box to open it</p>

@@ -1,6 +1,6 @@
 
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ArrowRight, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 // @ts-ignore
@@ -13,6 +13,7 @@ interface DolphinRevealProps {
 const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isFullyRevealed, setIsFullyRevealed] = useState(false);
+    const [showHint, setShowHint] = useState(true);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -29,9 +30,6 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
     // Starts at 20% (small dolphin) and grows to 400% (covering screen)
     const maskSize = useTransform(smoothProgress, [0, 0.8], ["20%", "450%"]);
 
-    // Opacity for the "Scroll" hint
-    const hintOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
-
     // SVG Data URI for the dolphin mask
     // Using encodeURIComponent to handle the emoji correctly (btoa fails on unicode)
     const dolphinSvg = `
@@ -42,7 +40,11 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
     const dolphinUrl = `data:image/svg+xml;utf8,${encodeURIComponent(dolphinSvg)}`;
 
     useEffect(() => {
-        const unsubscribe = smoothProgress.on("change", (v) => {
+        const unsubscribe = scrollYProgress.on("change", (v) => {
+            if (v > 0.02) {
+                setShowHint(false);
+            }
+
             if (v > 0.85) {
                 if (!isFullyRevealed) {
                     setIsFullyRevealed(true);
@@ -58,7 +60,7 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
             }
         });
         return () => unsubscribe();
-    }, [smoothProgress, isFullyRevealed]);
+    }, [scrollYProgress, isFullyRevealed]);
 
     useEffect(() => {
         if (isFullyRevealed) {
@@ -87,8 +89,9 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
             <div className="sticky top-0 h-[100vh] w-full flex flex-col items-center justify-center overflow-hidden bg-blue-50 z-40">
 
                 {/* The Image with Mask */}
+                {/* The Image with Mask */}
                 <motion.div
-                    className="absolute inset-0 z-10 w-full h-full"
+                    className="absolute z-10 w-[90%] h-[70%] max-w-4xl rounded-3xl shadow-2xl left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                     style={{
                         backgroundImage: `url(${diduImg})`,
                         backgroundSize: 'cover',
@@ -112,13 +115,19 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
                 )}
 
                 {/* Scroll Hint Overlay */}
-                <motion.div
-                    style={{ opacity: hintOpacity }}
-                    className="absolute bottom-12 left-0 w-full flex flex-col items-center justify-center z-20 pointer-events-none"
-                >
-                    <p className="text-blue-400 font-pacifico text-2xl mb-2 animate-pulse">Scroll to Reveal</p>
-                    <ChevronDown className="text-blue-400 animate-bounce" size={32} />
-                </motion.div>
+                <AnimatePresence>
+                    {showHint && (
+                        <motion.div
+                            initial={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="absolute top-32 left-0 w-full flex flex-col items-center justify-center z-20 pointer-events-none"
+                        >
+                            <p className="text-blue-400 font-pacifico text-2xl mb-2 animate-pulse">Scroll to Reveal</p>
+                            <ChevronDown className="text-blue-400 animate-bounce" size={32} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Decoration Layer (Hearts & Caption) */}
                 {isFullyRevealed && (
@@ -168,7 +177,7 @@ const DolphinReveal: React.FC<DolphinRevealProps> = ({ onComplete }) => {
                         pointerEvents: isFullyRevealed ? 'auto' : 'none'
                     }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="absolute bottom-10 z-30"
+                    className="absolute bottom-24 z-30"
                 >
                     <button
                         onClick={onComplete}
