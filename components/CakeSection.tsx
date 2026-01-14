@@ -39,6 +39,23 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
       </motion.h2>
 
       <div className="relative mt-32 scale-110 sm:scale-125 flex flex-col items-center">
+        {/* Tap Instruction */}
+        <AnimatePresence>
+          {candleLit && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute -top-40 left-[10%] -translate-x-1/2 whitespace-nowrap z-50 cursor-pointer"
+              onClick={handleBlow}
+            >
+              <p className="text-sm font-bold text-orange-500 uppercase tracking-widest animate-bounce">
+                Tap to Blow 💨
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Cake Base */}
         <div className="w-40 h-24 bg-[#ffccdc] rounded-t-3xl border-b-8 border-pink-300 relative shadow-inner">
           {/* Frosting Drips */}
@@ -82,9 +99,7 @@ const CakeSection: React.FC<CakeSectionProps> = ({ onComplete }) => {
                     transition={{ repeat: Infinity, duration: 0.8 }}
                     className="w-6 h-9 bg-gradient-to-t from-orange-600 via-orange-400 to-yellow-200 rounded-full shadow-[0_0_20px_rgba(255,165,0,0.8)]"
                   />
-                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-orange-500 uppercase tracking-widest animate-bounce cursor-pointer">
-                    Tap to Blow 💨
-                  </div>
+
                 </motion.div>
               )}
             </AnimatePresence>
